@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: tally-landing-single-html
+expected_outcome: |
+  A single self-contained landing page (HTML + optional CSS) for an iOS habit app that reads as
+  Apple-like: white/#f5f5f7 canvas, one accent, large tight 600-weight headlines, frosted nav,
+  scroll-triggered entrances that respect reduced motion, phone-framed visuals, clear pricing.

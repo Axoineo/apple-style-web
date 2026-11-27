@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "apple-style-web",
+  "description": "Apple-style web design skill for Claude.",
+  "owner": {
+    "name": "Axoineo"
+  },
+  "plugins": [
+    {
+      "name": "apple-style-web",
+      "description": "Build premium, white-first websites in the style of apple.com and KelperZone: huge tight headlines, one accent colour, frosted-glass navigation, spring physics, scroll reveals and draggable card rails. Ships design tokens, React components, a no-build HTML starter and a ship checklist.",
+      "author": {
+        "name": "Axoineo"
+      },
+      "source": "./plugins/apple-style-web",
+      "category": "design",
+      "homepage": "https://github.com/Axoineo/apple-style-web"
+    }
+  ]
+}

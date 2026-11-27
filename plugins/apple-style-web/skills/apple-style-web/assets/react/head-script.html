@@ -1,0 +1,16 @@
+<!--
+  Put this as the FIRST thing inside <head> (in Next.js: app/layout.tsx via <script dangerouslySetInnerHTML>;
+  in Vite: index.html; in TanStack Start: the root shell).
+  1. Adds .js to <html> before first paint, so TextReveal / MotionReveal content starts hidden
+     instead of showing in server HTML, vanishing on hydration and animating back in.
+  2. Loads Inter without blocking render (it is only a fallback behind the system font).
+-->
+<script>
+  document.documentElement.classList.add("js");
+  (function () {
+    var l = document.createElement("link");
+    l.rel = "stylesheet";
+    l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
+    document.head.appendChild(l);
+  })();
+</script>

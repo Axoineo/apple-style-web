@@ -1,0 +1,21 @@
+{
+  "name": "apple-style-web",
+  "version": "1.0.0",
+  "description": "Build premium, white-first websites in the style of apple.com and KelperZone: huge tight headlines, one accent colour, frosted-glass navigation, spring physics, scroll reveals and draggable card rails. Ships design tokens, React components, a no-build HTML starter and a ship checklist.",
+  "author": {
+    "name": "Axoineo"
+  },
+  "homepage": "https://github.com/Axoineo/apple-style-web",
+  "repository": "https://github.com/Axoineo/apple-style-web",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "web",
+    "apple",
+    "motion",
+    "tailwind",
+    "react",
+    "landing-page",
+    "skill"
+  ]
+}

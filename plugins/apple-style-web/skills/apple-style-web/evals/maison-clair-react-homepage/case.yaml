@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: maison-clair-react-homepage
+expected_outcome: |
+  A React + Vite + TS + Tailwind v4 + motion homepage source tree with the requested sections, a
+  draggable project gallery with spring physics, content kept in a data file, calm premium styling,
+  reduced-motion support and SEO metadata.

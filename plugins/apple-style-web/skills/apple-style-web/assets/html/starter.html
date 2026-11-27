@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add("js");</script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Northwind Studio — Websites that feel effortless</title>
+  <meta name="description" content="A small studio building fast, calm, beautifully animated websites." />
+  <link rel="canonical" href="https://example.com/" />
+  <meta property="og:title" content="Northwind Studio" />
+  <meta property="og:description" content="Websites that feel effortless." />
+  <!-- Copy assets/react/tokens.css next to this file. -->
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
+  <style>
+    /* Page-specific bits. Everything shared lives in tokens.css. */
+    .hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(116px, 14vw, 168px) 0 clamp(48px, 7vw, 88px); text-align: center; }
+    .hero .lead { margin-inline: auto; }
+    .hero .btn-row { justify-content: center; }
+    .device { perspective: 1400px; margin: clamp(40px, 6vw, 72px) auto 0; max-width: 980px; }
+    .macbook { transform-origin: 50% 100%; will-change: transform; }
+    .macbook .lid { background: #1d1d1f; border-radius: 18px 18px 6px 6px; padding: 1.6%; box-shadow: var(--shadow-deep); }
+    .macbook .screen { aspect-ratio: 16 / 10; border-radius: 6px; overflow: hidden; background: linear-gradient(180deg, #fbfbfd, #eef1f7); position: relative; }
+    .macbook .base { height: 14px; margin: 0 -4%; background: linear-gradient(#e3e3e8, #c7c7cc); border-radius: 0 0 14px 14px; position: relative; }
+    .macbook .base::after { content: ""; position: absolute; left: 50%; top: 0; width: 14%; height: 5px; transform: translateX(-50%); background: #b4b4ba; border-radius: 0 0 8px 8px; }
+    /* A fake app UI so the frame is never empty. Replace with a real screenshot <img>. */
+    .ui { position: absolute; inset: 0; display: grid; grid-template-columns: 18% 1fr; }
+    .ui aside { background: rgb(0 0 0 / 3%); border-right: 1px solid var(--hairline); padding: 6% 8%; display: grid; gap: 6%; align-content: start; }
+    .ui aside i, .ui main i { display: block; height: 8px; border-radius: 4px; background: rgb(0 0 0 / 8%); }
+    .ui main { padding: 4%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3%; align-content: start; }
+    .ui main b { grid-column: span 3; height: 38%; min-height: 60px; border-radius: 10px; background: linear-gradient(120deg, var(--pastel-sky), var(--pastel-lilac) 55%, var(--pastel-peach)); }
+    .ui main span { aspect-ratio: 4/3; border-radius: 8px; background: #fff; box-shadow: var(--ring); }
+    .wordmark { text-align: center; padding-block: clamp(72px, 10vw, 128px); }
+    .wordmark p:first-child { display: inline-block; white-space: nowrap; font-family: var(--font-display); font-size: clamp(52px, 13vw, 200px); font-weight: 700; line-height: 0.95; letter-spacing: -0.045em; }
+    .tile { height: 100%; display: flex; flex-direction: column; gap: 14px; }
+    .tile .icon { width: 56px; height: 56px; }
+    .tile .meta { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
+    .chip { border-radius: 9999px; background: var(--surface); padding: 4px 12px; font-size: 13px; font-weight: 600; }
+    .statement { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 600; line-height: 1.12; letter-spacing: -0.015em; max-width: 22ch; }
+    .statement span { color: var(--ink-3); transition: color 0.5s var(--ease-soft); }
+    .statement span.on { color: var(--ink); }
+    .rail { overflow: hidden; margin-top: 40px; }
+    .rail-track { display: flex; gap: 20px; width: max-content; padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2)); cursor: grab; user-select: none; touch-action: pan-y; will-change: transform; }
+    .rail-track:active { cursor: grabbing; }
+    .rail-card { width: min(78vw, 360px); flex: none; overflow: hidden; }
+    .rail-card .shot { aspect-ratio: 16 / 10; }
+    .rail-card .body { padding: 20px 24px 24px; }
+    .rail-controls { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+    .round { width: 36px; height: 36px; border-radius: 50%; border: 0; background: #e8e8ed; color: var(--ink); font-size: 18px; cursor: pointer; transition: background-color 0.3s; }
+    .round:hover { background: #dcdce1; }
+    .tiers { display: grid; gap: 20px; margin-top: 48px; }
+    @media (min-width: 900px) { .tiers { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+    .tier { display: flex; flex-direction: column; gap: 12px; }
+    .tier .price { font-family: var(--font-display); font-size: 48px; font-weight: 600; letter-spacing: -0.02em; }
+    .tier ul { list-style: none; padding: 0; margin: 8px 0 16px; display: grid; gap: 8px; color: var(--ink-2); }
+    .tier li::before { content: "✓  "; color: var(--ink); font-weight: 600; }
+    .tier .btn { margin-top: auto; }
+    .badge { align-self: flex-start; border-radius: 9999px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 10px; }
+    .faq { max-width: 820px; margin-top: 40px; }
+    .faq details { border-bottom: 1px solid var(--hairline); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; padding: 22px 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; font-weight: 400; font-size: 1.5rem; line-height: 1; transition: transform 0.4s var(--ease-soft); }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq details p { padding-bottom: 22px; color: var(--ink-2); max-width: 60ch; }
+    .cta { position: relative; isolation: isolate; overflow: hidden; text-align: center; }
+    .cta .btn-row { justify-content: center; }
+    footer { background: var(--surface); padding: 40px 0 28px; font-size: 12px; color: var(--ink-2); line-height: 1.7; }
+    footer .cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (min-width: 768px) { footer .cols { grid-template-columns: repeat(4, 1fr); } }
+    footer h4 { margin: 0 0 8px; color: var(--ink); font-size: 12px; }
+    footer a { display: block; }
+    footer a:hover { color: var(--ink); text-decoration: underline; }
+    footer .legal { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--hairline); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--ink-3); }
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 16px; top: 16px; z-index: 100; background: #fff; padding: 8px 14px; border-radius: 9999px; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="bar" data-float="false">
+      <nav class="bar-inner" aria-label="Main">
+        <a href="/" class="bar-brand">Northwind</a>
+        <ul class="bar-links">
+          <li><a class="nav-link" href="#services">Services</a></li>
+          <li><a class="nav-link" href="#work">Work</a></li>
+          <li><a class="nav-link" href="#pricing">Pricing</a></li>
+          <li><a class="nav-link" href="#faq">FAQ</a></li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:8px">
+          <a class="btn btn-primary btn-sm" href="#contact">Start a project</a>
+          <button class="bar-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation"><span></span><span></span></button>
+        </div>
+      </nav>
+      <span class="bar-progress" aria-hidden="true" style="transform:scaleX(0)"></span>
+    </div>
+    <nav id="mobile-navigation" class="mobile-menu" aria-label="Mobile" hidden>
+      <ul style="list-style:none;margin:0;padding:0">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="btn btn-primary" style="margin-top:32px" href="#contact">Start a project</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- 1. Hero: eyebrow, two-tone headline, lead, two actions, device visual -->
+    <section class="hero">
+      <div class="soft-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="page-container">
+        <p class="eyebrow hero-intro">Northwind Studio</p>
+        <h1 class="h-hero" data-split data-dim-from="2" data-on-load>Websites that feel effortless.</h1>
+        <p class="lead hero-intro" style="--reveal-delay:.3s">We design and build <b>fast, calm, beautifully animated sites</b> for small teams who care how things feel.</p>
+        <div class="btn-row hero-intro" style="--reveal-delay:.4s">
+          <a class="btn btn-primary" href="#contact">Start a project</a>
+          <a class="btn btn-ghost" href="#work">See our work</a>
+        </div>
+        <div class="device">
+          <div class="macbook" data-settle>
+            <div class="lid"><div class="screen">
+              <div class="ui" aria-hidden="true">
+                <aside><i></i><i></i><i style="width:70%"></i><i></i><i style="width:55%"></i></aside>
+                <main><b></b><span></span><span></span><span></span></main>
+              </div>
+            </div></div>
+            <div class="base"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Brand moment -->
+    <section class="wordmark" aria-label="Northwind. Small studio, big care.">
+      <div class="page-container" data-loop>
+        <p class="brand-sheen" aria-hidden="true">Northwind</p>
+        <p class="lead" style="margin-inline:auto">Small studio. Big care.</p>
+      </div>
+    </section>
+
+    <!-- 3. Services bento -->
+    <section id="services" class="section band-grey">
+      <div class="page-container">
+        <p class="eyebrow motion-reveal">Services</p>
+        <h2 class="h-section" data-split data-dim-from="4">Everything a site needs. Nothing it doesn't.</h2>
+        <div class="bento" style="margin-top:48px">
+          <div class="span-3 motion-reveal"><a class="card tile tilt" href="#contact">
+            <svg class="icon" viewBox="0 0 56 56" aria-hidden="true"><rect x="10" y="14" width="40" height="30" rx="6" fill="var(--pastel-sky)"/><rect x="6" y="10" width="40" height="30" rx="6" fill="none" stroke="var(--ink)" stroke-width="2.4"/><path d="M6 18h40" stroke="var(--ink)" stroke-width="2.4"/></svg>
+            <h3 class="h-tile">Marketing websites</h3><p class="copy">A home for your brand that loads instantly and reads beautifully.</p>
+            <span class="meta"><span class="chip">From $900</span><span class="link-chevron">Learn more</span></span></a></div>
+          <div class="span-3 motion-reveal" style="--reveal-delay:.07s"><a class="card tile tilt" href="#contact">
+            <svg class="icon" viewBox="0 0 56 56" aria-hidden="true"><circle cx="32" cy="30" r="16" fill="var(--pastel-lilac)"/><path d="M14 12l10 28 4-11 11-4z" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linejoin="round"/></svg>
+            <h3 class="h-tile">Interactive experiences</h3><p class="copy">Motion with physics, scroll stories and product tours that feel native.</p>
+            <span class="meta"><span class="chip">From $1,800</span><span class="link-chevron">Learn more</span></span></a></div>
+          <div class="span-2 motion-reveal"><a class="card tile tilt" href="#contact">
+            <svg class="icon" viewBox="0 0 56 56" aria-hidden="true"><rect x="14" y="20" width="32" height="26" rx="6" fill="var(--pastel-peach)"/><path d="M10 18h32l-3 26H13z" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M19 18a7 7 0 0114 0" fill="none" stroke="var(--ink)" stroke-width="2.4"/></svg>
+            <h3 class="h-tile">E-commerce</h3><p class="copy">Stores that make buying feel calm.</p>
+            <span class="meta"><span class="chip">From $1,500</span><span class="link-chevron">Learn more</span></span></a></div>
+          <div class="span-2 motion-reveal" style="--reveal-delay:.07s"><a class="card tile tilt" href="#contact">
+            <svg class="icon" viewBox="0 0 56 56" aria-hidden="true"><circle cx="30" cy="30" r="16" fill="var(--pastel-mint)"/><path d="M26 8L14 32h12l-4 16 16-24H26z" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linejoin="round"/></svg>
+            <h3 class="h-tile">Performance</h3><p class="copy">Lighthouse 95+ on mobile, or we keep working.</p>
+            <span class="meta"><span class="chip">From $400</span><span class="link-chevron">Learn more</span></span></a></div>
+          <div class="span-2 motion-reveal" style="--reveal-delay:.14s"><a class="card tile tilt" href="#contact">
+            <svg class="icon" viewBox="0 0 56 56" aria-hidden="true"><circle cx="30" cy="30" r="16" fill="var(--pastel-sky)"/><path d="M42 22a16 16 0 10 2 12M42 12v10H32" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3 class="h-tile">Redesigns</h3><p class="copy">Keep your content and SEO. Lose the clutter.</p>
+            <span class="meta"><span class="chip">From $700</span><span class="link-chevron">Learn more</span></span></a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Statement: words brighten as you scroll -->
+    <section class="section">
+      <div class="page-container">
+        <p class="statement" data-statement>Good websites don't shout. They load fast, read clearly and move like they were always meant to.</p>
+      </div>
+    </section>
+
+    <!-- 5. Work rail -->
+    <section id="work" class="section band-grey">
+      <div class="page-container">
+        <p class="eyebrow motion-reveal">Work</p>
+        <h2 class="h-section" data-split data-dim-from="2">Recent launches. Real results.</h2>
+      </div>
+      <div class="rail" role="region" aria-roledescription="carousel" aria-label="Recent work" tabindex="0">
+        <div class="rail-track">
+          <article class="rail-card card-soft"><div class="shot" style="background:linear-gradient(135deg,#dfe9ff,#f3e8ff)"></div><div class="body"><p class="eyebrow" style="font-size:14px">Vela · SaaS</p><h3 class="h-tile">Signups up 38%</h3></div></article>
+          <article class="rail-card card-soft"><div class="shot" style="background:linear-gradient(135deg,#ffe7d6,#fff4e8)"></div><div class="body"><p class="eyebrow" style="font-size:14px">Vesta · Retail</p><h3 class="h-tile">1.1s mobile load</h3></div></article>
+          <article class="rail-card card-soft"><div class="shot" style="background:linear-gradient(135deg,#dff5ea,#eef8ff)"></div><div class="body"><p class="eyebrow" style="font-size:14px">Nexora · Agency</p><h3 class="h-tile">Rebuilt in 3 weeks</h3></div></article>
+          <article class="rail-card card-soft"><div class="shot" style="background:linear-gradient(135deg,#eee8ff,#e3f0ff)"></div><div class="body"><p class="eyebrow" style="font-size:14px">Orbit · Fintech</p><h3 class="h-tile">2× demo requests</h3></div></article>
+          <article class="rail-card card-soft"><div class="shot" style="background:linear-gradient(135deg,#f5f5f7,#e8e8ed)"></div><div class="body"><p class="eyebrow" style="font-size:14px">Lumen · Studio</p><h3 class="h-tile">Award shortlist</h3></div></article>
+        </div>
+      </div>
+      <div class="page-container rail-controls">
+        <button class="round" type="button" data-rail="-1" aria-label="Previous">‹</button>
+        <button class="round" type="button" data-rail="1" aria-label="Next">›</button>
+      </div>
+    </section>
+
+    <!-- 6. Pricing -->
+    <section id="pricing" class="section">
+      <div class="page-container">
+        <p class="eyebrow motion-reveal">Pricing</p>
+        <h2 class="h-section" data-split data-dim-from="2">Clear prices. No agency markup.</h2>
+        <div class="tiers">
+          <div class="card tier motion-reveal"><h3 class="h-tile">Starter</h3><p class="copy">For a sharp one-page presence.</p><p class="price">$900</p><ul><li>Up to 3 sections</li><li>Mobile-first build</li><li>Basic SEO</li></ul><a class="btn btn-ghost" href="#contact">Choose Starter</a></div>
+          <div class="card tier spin-border motion-reveal" style="--reveal-delay:.07s"><span class="badge">Most popular</span><h3 class="h-tile">Studio</h3><p class="copy">For businesses that want to stand out.</p><p class="price">$2,400</p><ul><li>Up to 8 pages</li><li>Custom motion</li><li>CMS and blog</li><li>Full SEO + analytics</li></ul><a class="btn btn-primary" href="#contact">Choose Studio</a></div>
+          <div class="card tier motion-reveal" style="--reveal-delay:.14s"><h3 class="h-tile">Custom</h3><p class="copy">For products, stores and apps.</p><p class="price">Let's talk</p><ul><li>Unlimited scope</li><li>E-commerce or web app</li><li>Ongoing support</li></ul><a class="btn btn-ghost" href="#contact">Get a quote</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FAQ -->
+    <section id="faq" class="section band-grey">
+      <div class="page-container">
+        <h2 class="h-section" data-split data-dim-from="1">Questions? Answers.</h2>
+        <div class="faq motion-reveal">
+          <details><summary>How long does a site take?</summary><p>Most sites launch in <b>two to four weeks</b>, depending on pages and content.</p></details>
+          <details><summary>Can I edit the content myself?</summary><p>Yes. Every site ships with a simple editor or a single content file you can change safely.</p></details>
+          <details><summary>Will it work on phones?</summary><p>We design phone-first and test on real devices before launch.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Closing CTA -->
+    <section id="contact" class="section cta">
+      <div class="soft-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="page-container">
+        <h2 class="h-display" data-split data-dim-from="3">Have a project? Let's talk.</h2>
+        <p class="lead motion-reveal" style="margin-inline:auto">Replies within <b>one business day</b>.</p>
+        <div class="btn-row motion-reveal"><a class="btn btn-primary" href="mailto:hello@example.com">Email us</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="page-container">
+      <div class="cols">
+        <div><h4>Services</h4><a href="#services">Websites</a><a href="#services">E-commerce</a><a href="#services">Redesigns</a></div>
+        <div><h4>Studio</h4><a href="#work">Work</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+        <div><h4>Contact</h4><a href="mailto:hello@example.com">hello@example.com</a></div>
+        <div><h4>Follow</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+      </div>
+      <div class="legal"><span>© 2026 Northwind Studio</span><span>Privacy · Terms</span></div>
+    </div>
+  </footer>
+
+  <script>
+  (() => {
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const phone = matchMedia("(max-width: 767px)").matches;
+    const spring = (from, to, v0, onUpdate, { bounce = 0, duration = 0.5 } = {}) => {
+      // Analytic spring (Apple's bounce/duration model), time-based so it is frame-rate independent.
+      // Starts with the gesture's release velocity v0 (px/s). Returns a stop function.
+      const w = (2 * Math.PI) / duration, z = 1 - bounce, x0 = from - to, t0 = performance.now();
+      const wd = w * Math.sqrt(Math.max(0, 1 - z * z));
+      const at = (t) => z >= 1
+        ? (x0 + (v0 + w * x0) * t) * Math.exp(-w * t)
+        : Math.exp(-z * w * t) * (x0 * Math.cos(wd * t) + ((v0 + z * w * x0) / wd) * Math.sin(wd * t));
+      let raf;
+      const step = (now) => {
+        const t = (now - t0) / 1000, x = at(t);
+        if (t > duration * 2.5 || (t > 0.05 && Math.abs(x) < 0.25 && Math.abs(at(t + 0.016) - x) < 0.05)) return onUpdate(to);
+        onUpdate(to + x); raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(raf);
+    };
+
+    /* Split headings into words → chars (whole-word safe), two-tone via data-dim-from. */
+    document.querySelectorAll("[data-split]").forEach((el) => {
+      const text = el.textContent.trim(), dimFrom = +(el.dataset.dimFrom ?? 1e9), onLoad = "onLoad" in el.dataset;
+      el.setAttribute("aria-label", text);
+      el.classList.add("text-reveal");
+      if (onLoad) el.classList.add("text-reveal-on-load");
+      let ci = 0;
+      const inner = document.createElement("span"); inner.setAttribute("aria-hidden", "true");
+      text.split(" ").forEach((word, wi, words) => {
+        const w = document.createElement("span"); w.className = "reveal-word" + (wi >= dimFrom ? " text-dim" : ""); w.dataset.word = "";
+        if (onLoad) w.style.setProperty("--word-delay", ci * 38 + "ms");
+        [...word].forEach((ch) => {
+          const c = document.createElement("span"); c.className = "reveal-char"; c.dataset.char = ""; c.textContent = ch;
+          if (onLoad) c.style.setProperty("--char-delay", ci * 38 + "ms");
+          ci++; w.appendChild(c);
+        });
+        inner.appendChild(w); if (wi < words.length - 1) inner.append(" ");
+      });
+      el.replaceChildren(inner);
+    });
+
+    /* Entrances: play once on enter; release animations when done. */
+    const reveal = (el) => {
+      el.dataset.revealed = "true";
+      if (!el.classList.contains("text-reveal") || reduced || !el.animate) return;
+      const chars = [...el.querySelectorAll("[data-char]")], words = [...el.querySelectorAll("[data-word]")];
+      const stagger = Math.min(38, (phone ? 420 : 650) / Math.max(chars.length - 1, 1)), anims = [];
+      chars.forEach((c, i) => anims.push(c.animate([{ opacity: 0, transform: "translate3d(0,.3em,0)" }, { opacity: .85, transform: "translate3d(0,.05em,0)", offset: .7 }, { opacity: 1, transform: "none" }], { duration: phone ? 680 : 850, delay: i * stagger, easing: "cubic-bezier(.22,.61,.36,1)", fill: "backwards" })));
+      let first = 0;
+      words.forEach((w) => { anims.push(w.animate([{ filter: `blur(${phone ? 3 : 6}px)` }, { filter: "blur(0)" }], { duration: phone ? 620 : 820, delay: first * stagger, easing: "cubic-bezier(.22,.61,.36,1)", fill: "backwards" })); first += w.querySelectorAll("[data-char]").length; });
+      Promise.all(anims.map((a) => a.finished)).then(() => anims.forEach((a) => a.cancel()));
+    };
+    const targets = document.querySelectorAll(".motion-reveal, .text-reveal:not(.text-reveal-on-load)");
+    if (reduced || !("IntersectionObserver" in window)) targets.forEach((el) => (el.dataset.revealed = "true"));
+    else {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); reveal(e.target); } }), { threshold: 0.01, rootMargin: "0px 0px -24px 0px" });
+      targets.forEach((el) => io.observe(el));
+    }
+
+    /* Nav: floating pill after 24px, progress hairline, mobile menu. */
+    const bar = document.querySelector(".bar"), progress = document.querySelector(".bar-progress");
+    const toggle = document.querySelector(".bar-toggle"), menu = document.getElementById("mobile-navigation");
+    let menuOpen = false;
+    const onScroll = () => {
+      bar.dataset.float = String(scrollY > 24 && !menuOpen);
+      const max = document.documentElement.scrollHeight - innerHeight;
+      if (!reduced) progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+      else progress.hidden = true;
+    };
+    addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    const setMenu = (open) => {
+      menuOpen = open; menu.hidden = !open; toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.style.overflow = open ? "hidden" : ""; onScroll();
+      if (open) menu.querySelector("a").focus();
+    };
+    toggle.addEventListener("click", () => setMenu(!menuOpen));
+    menu.addEventListener("click", (e) => e.target.closest("a") && setMenu(false));
+    addEventListener("keydown", (e) => { if (e.key === "Escape" && menuOpen) { setMenu(false); toggle.focus(); } });
+
+    /* Pause loops offscreen / hidden tab. */
+    const loops = document.querySelectorAll(".soft-glow, [data-loop]");
+    const vis = new Map();
+    const apply = () => loops.forEach((el) => { const on = vis.get(el) && !document.hidden; el.dataset.animating = on ? "true" : "false"; el.dataset.paused = on ? "false" : "true"; });
+    const lio = new IntersectionObserver((es) => { es.forEach((e) => vis.set(e.target, e.isIntersecting)); apply(); });
+    loops.forEach((el) => lio.observe(el)); document.addEventListener("visibilitychange", apply);
+
+    /* Hero device settles from a 12° tilt as it scrolls into place. */
+    const device = document.querySelector("[data-settle]");
+    if (device && !reduced) {
+      const settle = () => {
+        const r = device.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight * 0.85)));
+        device.style.transform = `rotateX(${12 * (1 - p)}deg) scale(${0.92 + 0.08 * p})`;
+      };
+      addEventListener("scroll", settle, { passive: true }); settle();
+    }
+
+    /* Statement: words brighten as the reader scrolls through. */
+    const st = document.querySelector("[data-statement]");
+    if (st) {
+      st.innerHTML = st.textContent.split(" ").map((w) => `<span>${w}</span>`).join(" ");
+      const words = [...st.children];
+      const light = () => {
+        const r = st.getBoundingClientRect();
+        const p = reduced ? 1 : Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (innerHeight * 0.6)));
+        words.forEach((w, i) => w.classList.toggle("on", i / words.length < p));
+      };
+      addEventListener("scroll", light, { passive: true }); light();
+    }
+
+    /* Tilt + edge glow: mouse only. */
+    document.querySelectorAll(".tilt").forEach((card) => {
+      card.classList.add("edge-glow");
+      card.style.transition = "transform .6s var(--ease-soft)";
+      card.addEventListener("pointermove", (e) => {
+        if (e.pointerType !== "mouse") return;
+        const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty("--mx", e.clientX - r.left + "px"); card.style.setProperty("--my", e.clientY - r.top + "px");
+        if (!reduced) card.style.transform = `perspective(900px) rotateX(${-y * 2.75}deg) rotateY(${x * 3.5}deg) translateY(-3px)`;
+      });
+      card.addEventListener("pointerleave", () => (card.style.transform = ""));
+    });
+
+    /* Rail: 1:1 drag, rubber-band, flick projection, keyboard, buttons. */
+    const rail = document.querySelector(".rail"), track = rail.querySelector(".rail-track");
+    let x = 0, index = 0, stop = () => {}, snaps = [], min = 0;
+    const set = (v) => { x = v; track.style.transform = `translate3d(${v}px,0,0)`; };
+    const measure = () => {
+      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      min = Math.min(0, rail.clientWidth - track.scrollWidth);
+      snaps = [...track.children].map((c) => Math.max(min, Math.min(0, -(c.offsetLeft - pad))));
+      set(snaps[index] ?? 0);
+    };
+    const go = (i, v = 0) => {
+      index = Math.max(0, Math.min(snaps.length - 1, i)); stop();
+      if (reduced) return set(snaps[index]);
+      stop = spring(x, snaps[index], v, set, Math.abs(v) > 300 ? { bounce: 0.2, duration: 0.45 } : { duration: 0.55 });
+    };
+    const nearest = (v) => snaps.reduce((b, s, i) => (Math.abs(s - v) < Math.abs(snaps[b] - v) ? i : b), 0);
+    let startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0, dragging = false, moved = false;
+    track.addEventListener("pointerdown", (e) => { dragging = true; moved = false; stop(); startX = lastX = e.clientX; startPos = x; lastT = performance.now(); vel = 0; track.setPointerCapture(e.pointerId); });
+    track.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const now = performance.now(); vel = ((e.clientX - lastX) / Math.max(1, now - lastT)) * 1000; lastX = e.clientX; lastT = now;
+      let next = startPos + (e.clientX - startX); if (Math.abs(e.clientX - startX) > 4) moved = true;
+      if (next > 0) next *= 0.18; else if (next < min) next = min + (next - min) * 0.18; // rubber-band
+      set(next);
+    });
+    const release = () => {
+      if (!dragging) return; dragging = false;
+      const d = 0.998, projected = x + ((vel / 1000) * d) / (1 - d);
+      let target = nearest(projected);
+      if (target === index && Math.abs(vel) > 350) target += vel < 0 ? 1 : -1;
+      go(target, vel);
+    };
+    track.addEventListener("pointerup", release); track.addEventListener("pointercancel", release);
+    track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+    rail.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); } if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); } });
+    document.querySelectorAll("[data-rail]").forEach((b) => b.addEventListener("click", () => go(index + +b.dataset.rail)));
+    let wheelTimer;
+    rail.addEventListener("wheel", (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault(); stop(); set(Math.max(min - 60, Math.min(60, x - e.deltaX)));
+      clearTimeout(wheelTimer); wheelTimer = setTimeout(() => go(nearest(x)), 120);
+    }, { passive: false });
+    new ResizeObserver(measure).observe(rail); measure();
+
+    /* Overlay scrollbars: visible only while scrolling. */
+    const timers = new Map();
+    document.addEventListener("scroll", (e) => {
+      const el = e.target === document ? document.documentElement : e.target;
+      el.classList.add("is-scrolling"); clearTimeout(timers.get(el));
+      timers.set(el, setTimeout(() => el.classList.remove("is-scrolling"), 900));
+    }, { capture: true, passive: true });
+  })();
+  </script>
+</body>
+</html>

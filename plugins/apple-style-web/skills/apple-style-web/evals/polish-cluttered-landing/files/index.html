@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ledgerly</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+body { font-family: Poppins, sans-serif; margin: 0; background: linear-gradient(135deg, #ff6ec4, #7873f5, #4ade80); color: #222; }
+nav { background: #ff006e; padding: 18px 40px; display: flex; justify-content: space-between; box-shadow: 0 10px 30px rgba(255,0,110,.6); }
+nav a { color: yellow; margin: 0 14px; font-weight: 900; text-transform: uppercase; }
+.logo { font-family: Pacifico; font-size: 32px; color: white; }
+.hero { text-align: center; padding: 80px 20px; }
+.hero h1 { font-size: 64px; font-weight: 900; color: white; text-shadow: 4px 4px 0 #000; animation: bounce 1s infinite; }
+.hero p { font-size: 22px; color: #fff; }
+.btn { display: inline-block; padding: 18px 40px; border-radius: 6px; background: linear-gradient(90deg, orange, red); color: white; font-weight: 900; box-shadow: 0 0 25px orange; animation: pulse 1.2s infinite; margin: 8px; }
+.btn2 { background: linear-gradient(90deg, #00f5d4, #00bbf9); box-shadow: 0 0 25px #00f5d4; }
+@keyframes bounce { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-20px) } }
+@keyframes pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.1) } }
+.features { display: flex; flex-wrap: wrap; gap: 20px; padding: 40px; justify-content: center; }
+.feature { background: white; border: 4px dashed #7873f5; border-radius: 30px 0 30px 0; width: 260px; padding: 20px; transform: rotate(-2deg); transition: all .2s; }
+.feature:hover { transform: rotate(3deg) scale(1.15); background: #ffe66d; }
+.feature h3 { color: #ff006e; font-size: 26px; }
+.pricing { background: #111; color: #0f0; padding: 50px; text-align: center; }
+.plan { display: inline-block; background: #222; border: 3px solid #0f0; margin: 10px; padding: 30px; width: 220px; vertical-align: top; }
+.plan h2 { font-size: 48px; color: #ff0; }
+.testimonials { padding: 40px; text-align: center; background: #fff3; }
+.testimonial { font-style: italic; font-size: 20px; margin: 20px auto; max-width: 600px; background: #fff; padding: 20px; border-radius: 50px; box-shadow: 10px 10px 0 #ff006e; }
+.marquee { white-space: nowrap; overflow: hidden; background: yellow; font-weight: 900; padding: 10px; }
+.marquee span { display: inline-block; animation: scroll 8s linear infinite; }
+@keyframes scroll { from { transform: translateX(100%) } to { transform: translateX(-100%) } }
+footer { background: #7873f5; color: white; padding: 30px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="marquee"><span>🔥🔥 LIMITED OFFER!!! 50% OFF FIRST 3 MONTHS — USE CODE LEDGER50 🔥🔥</span></div>
+<nav><span class="logo">Ledgerly</span><div><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#reviews">Reviews</a><a href="#">Login</a></div></nav>
+<section class="hero">
+  <h1>BOOKKEEPING THAT DOESN'T SUCK!!!</h1>
+  <p>Ledgerly connects to your bank, categorises every transaction with AI and gets you tax-ready in minutes — not weekends.</p>
+  <a class="btn" href="#">START FREE TRIAL 🚀</a><a class="btn btn2" href="#">WATCH DEMO ▶</a>
+</section>
+<section class="features" id="features">
+  <div class="feature"><h3>🏦 Bank sync</h3><p>Connect 12,000+ banks and cards. Transactions import automatically every night.</p></div>
+  <div class="feature"><h3>🤖 AI categories</h3><p>Every transaction is categorised for you, and it learns from your corrections.</p></div>
+  <div class="feature"><h3>🧾 Receipt capture</h3><p>Snap a photo of a receipt and Ledgerly matches it to the right transaction.</p></div>
+  <div class="feature"><h3>📊 Live reports</h3><p>Profit &amp; loss, balance sheet and cash flow, always up to date.</p></div>
+  <div class="feature"><h3>💸 Tax-ready exports</h3><p>One click exports for your accountant or for self-assessment.</p></div>
+  <div class="feature"><h3>👥 Accountant access</h3><p>Invite your accountant for free with read-only or full access.</p></div>
+</section>
+<section class="pricing" id="pricing">
+  <h1>PRICING 💰💰💰</h1>
+  <div class="plan"><h3>Solo</h3><h2>$12</h2><p>per month</p><p>1 business · 2 bank accounts · receipt capture</p></div>
+  <div class="plan"><h3>Business</h3><h2>$29</h2><p>per month</p><p>1 business · unlimited accounts · live reports · accountant access</p></div>
+  <div class="plan"><h3>Firm</h3><h2>$79</h2><p>per month</p><p>Up to 10 businesses · priority support · bulk exports</p></div>
+</section>
+<section class="testimonials" id="reviews">
+  <div class="testimonial">"I used to lose a weekend every quarter to bookkeeping. Now it's 20 minutes." — Priya S., freelance designer</div>
+  <div class="testimonial">"Our accountant actually thanked us. That has never happened." — Marcus T., café owner</div>
+  <div class="testimonial">"The AI categories are scary good after the first month." — Lena W., Etsy seller</div>
+</section>
+<footer>© 2026 Ledgerly Inc. · Privacy · Terms · support@ledgerly.example</footer>
+</body>
+</html>
